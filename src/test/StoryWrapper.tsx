@@ -8,9 +8,7 @@ import { createDataProvider } from "@/components/atomic-crm/providers/fakerest";
 import { DEFAULT_USER } from "@/components/atomic-crm/providers/fakerest/authProvider";
 import type { Db } from "@/components/atomic-crm/providers/fakerest/dataGenerator/types";
 import type {
-  Company,
   Contact,
-  Deal,
   Sale,
 } from "@/components/atomic-crm/types";
 import { DataImportProvider } from "@/components/atomic-crm/dataImport/DataImportProvider";
@@ -63,28 +61,6 @@ export const buildSale = (overrides: Partial<Sale> = {}): Sale => ({
   ...overrides,
 });
 
-export const buildCompany = (overrides: Partial<Company> = {}): Company => ({
-  address: "1 Infinite Loop",
-  city: "Cupertino",
-  country: "USA",
-  created_at: "2025-01-01T09:00:00.000Z",
-  description: "",
-  id: 1,
-  linkedin_url: "",
-  logo: { src: "", title: "logo" } as Company["logo"],
-  name: "Acme",
-  phone_number: "",
-  revenue: "",
-  sales_id: 0,
-  sector: "Tech",
-  size: 10,
-  state_abbr: "CA",
-  tax_identifier: "",
-  website: "",
-  zipcode: "95014",
-  ...overrides,
-});
-
 // Build a valid contact record with sensible defaults to keep tests and stories terse.
 export const buildContact = (overrides: Partial<Contact> = {}): Contact => ({
   background: "",
@@ -105,24 +81,6 @@ export const buildContact = (overrides: Partial<Contact> = {}): Contact => ({
   status: "warm",
   tags: [],
   title: "CTO",
-  ...overrides,
-});
-
-export const buildDeal = (overrides: Partial<Deal> = {}): Deal => ({
-  amount: 1000,
-  archived_at: undefined,
-  category: "Other",
-  company_id: 1,
-  contact_ids: [],
-  created_at: "2025-01-01T09:00:00.000Z",
-  description: "",
-  expected_closing_date: "2025-02-01T09:00:00.000Z",
-  id: 1,
-  index: 0,
-  name: "Acme deal",
-  sales_id: 0,
-  stage: "opportunity",
-  updated_at: "2025-01-01T09:00:00.000Z",
   ...overrides,
 });
 

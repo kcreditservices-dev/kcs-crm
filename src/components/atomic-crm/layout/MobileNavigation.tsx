@@ -23,12 +23,8 @@ export const MobileNavigation = () => {
     currentPath = "/";
   } else if (matchPath("/contacts/*", location.pathname)) {
     currentPath = "/contacts";
-  } else if (matchPath("/companies/*", location.pathname)) {
-    currentPath = "/companies";
   } else if (matchPath("/tasks/*", location.pathname)) {
     currentPath = "/tasks";
-  } else if (matchPath("/deals/*", location.pathname)) {
-    currentPath = "/deals";
   } else {
     currentPath = false;
   }

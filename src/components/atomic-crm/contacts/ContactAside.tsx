@@ -12,6 +12,7 @@ import { ContactPersonalInfo } from "./ContactPersonalInfo";
 import { ContactBackgroundInfo } from "./ContactBackgroundInfo";
 import { AsideSection } from "../misc/AsideSection";
 import type { Contact } from "../types";
+import { ContactCreditInfo } from "./ContactCreditInfo";
 import { ContactMergeButton } from "./ContactMergeButton";
 import { ExportVCardButton } from "./ExportVCardButton";
 
@@ -33,6 +34,10 @@ export const ContactAside = ({ link = "edit" }: { link?: "edit" | "show" }) => {
 
       <AsideSection title={translate("resources.notes.fields.status")}>
         <ContactStatusSelector />
+      </AsideSection>
+
+      <AsideSection title="Credit Info">
+        <ContactCreditInfo />
       </AsideSection>
 
       <AsideSection

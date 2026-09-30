@@ -58,3 +58,5 @@ node_modules/
 
 *.lock
  
+# Local Netlify folder
+.netlify

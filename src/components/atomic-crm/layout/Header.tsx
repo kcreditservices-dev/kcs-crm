@@ -20,10 +20,8 @@ const Header = () => {
     currentPath = "/";
   } else if (matchPath("/contacts/*", location.pathname)) {
     currentPath = "/contacts";
-  } else if (matchPath("/companies/*", location.pathname)) {
-    currentPath = "/companies";
-  } else if (matchPath("/deals/*", location.pathname)) {
-    currentPath = "/deals";
+  } else if (matchPath("/pipeline", location.pathname)) {
+    currentPath = "/pipeline";
   } else {
     currentPath = false;
   }
@@ -65,18 +63,9 @@ const Header = () => {
                     isActive={currentPath === "/contacts"}
                   />
                   <NavigationTab
-                    label={translate("resources.companies.name", {
-                      smart_count: 2,
-                    })}
-                    to="/companies"
-                    isActive={currentPath === "/companies"}
-                  />
-                  <NavigationTab
-                    label={translate("resources.deals.name", {
-                      smart_count: 2,
-                    })}
-                    to="/deals"
-                    isActive={currentPath === "/deals"}
+                    label="Pipeline"
+                    to="/pipeline"
+                    isActive={currentPath === "/pipeline"}
                   />
                 </nav>
               </div>

@@ -2,74 +2,40 @@ import type { ConfigurationContextValue } from "./ConfigurationContext";
 // Import the logos as module assets so Vite resolves their URL relative to the
 // JS chunk (import.meta.url), not the current route. A plain "./logos/..." path
 // breaks on nested routes like /oauth/consent and under a deployment sub-path.
-import darkModeLogo from "./logos/logo_atomic_crm_dark.svg";
-import lightModeLogo from "./logos/logo_atomic_crm_light.svg";
+import darkModeLogo from "./logos/logo_kcs_dark.svg";
+import lightModeLogo from "./logos/logo_kcs_light.svg";
 
 export const defaultDarkModeLogo = darkModeLogo;
 export const defaultLightModeLogo = lightModeLogo;
 
 export const defaultCurrency = "USD";
 
-export const defaultTitle = "Atomic CRM";
-
-export const defaultCompanySectors = [
-  { value: "communication-services", label: "Communication Services" },
-  { value: "consumer-discretionary", label: "Consumer Discretionary" },
-  { value: "consumer-staples", label: "Consumer Staples" },
-  { value: "energy", label: "Energy" },
-  { value: "financials", label: "Financials" },
-  { value: "health-care", label: "Health Care" },
-  { value: "industrials", label: "Industrials" },
-  { value: "information-technology", label: "Information Technology" },
-  { value: "materials", label: "Materials" },
-  { value: "real-estate", label: "Real Estate" },
-  { value: "utilities", label: "Utilities" },
-];
-
-export const defaultDealStages = [
-  { value: "opportunity", label: "Opportunity" },
-  { value: "proposal-sent", label: "Proposal Sent" },
-  { value: "in-negociation", label: "In Negotiation" },
-  { value: "won", label: "Won" },
-  { value: "lost", label: "Lost" },
-  { value: "delayed", label: "Delayed" },
-];
-
-export const defaultDealPipelineStatuses = ["won"];
-
-export const defaultDealCategories = [
-  { value: "other", label: "Other" },
-  { value: "copywriting", label: "Copywriting" },
-  { value: "print-project", label: "Print project" },
-  { value: "ui-design", label: "UI Design" },
-  { value: "website-design", label: "Website design" },
-];
+export const defaultTitle = "King Credit CRM";
 
 export const defaultNoteStatuses = [
-  { value: "cold", label: "Cold", color: "#7dbde8" },
-  { value: "warm", label: "Warm", color: "#e8cb7d" },
-  { value: "hot", label: "Hot", color: "#e88b7d" },
-  { value: "in-contract", label: "In Contract", color: "#a4e87d" },
+  { value: "lead", label: "Lead", color: "#7dbde8" },
+  { value: "onboarding", label: "Onboarding", color: "#e8cb7d" },
+  { value: "round-1", label: "Round 1", color: "#a4e87d" },
+  { value: "round-2", label: "Round 2", color: "#7de8a4" },
+  { value: "mov", label: "MOV", color: "#e8a47d" },
+  { value: "its", label: "ITS", color: "#e87da4" },
+  { value: "complete", label: "Complete", color: "#8b7de8" },
+  { value: "attorney", label: "Attorney", color: "#e85d5d" },
 ];
 
 export const defaultTaskTypes = [
   { value: "none", label: "None" },
-  { value: "email", label: "Email" },
-  { value: "demo", label: "Demo" },
-  { value: "lunch", label: "Lunch" },
-  { value: "meeting", label: "Meeting" },
-  { value: "follow-up", label: "Follow-up" },
-  { value: "thank-you", label: "Thank you" },
-  { value: "ship", label: "Ship" },
   { value: "call", label: "Call" },
+  { value: "follow-up", label: "Follow-up" },
+  { value: "send-letters", label: "Send Letters" },
+  { value: "review-cr", label: "Review Credit Report" },
+  { value: "upload-docs", label: "Upload Documents" },
+  { value: "payment", label: "Payment Follow-up" },
+  { value: "sms", label: "SMS" },
 ];
 
 export const defaultConfiguration: ConfigurationContextValue = {
-  companySectors: defaultCompanySectors,
   currency: defaultCurrency,
-  dealCategories: defaultDealCategories,
-  dealPipelineStatuses: defaultDealPipelineStatuses,
-  dealStages: defaultDealStages,
   noteStatuses: defaultNoteStatuses,
   taskTypes: defaultTaskTypes,
   title: defaultTitle,

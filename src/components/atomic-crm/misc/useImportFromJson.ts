@@ -11,7 +11,6 @@ import mime from "mime/lite";
 import type { CrmDataProvider } from "../providers/types";
 import type { RAFile, Tag } from "../types";
 import { colors } from "../tags/colors";
-import { mapSizeToCategory } from "../companies/sizes";
 import { useConfigurationContext } from "../root/ConfigurationContext";
 import { contactGender } from "../contacts/contactModel";
 
@@ -98,7 +97,7 @@ export const useImportFromJson = (): [
   const { data: currentSale } = useGetIdentity();
   const dataProvider = useDataProvider<CrmDataProvider>();
   const refresh = useRefresh();
-  const { companySectors } = useConfigurationContext();
+  const _config = useConfigurationContext();
   const [state, setState] = useState<ImportFromJsonState>({
     status: "idle",
     error: null,
@@ -227,53 +226,8 @@ export const useImportFromJson = (): [
       }
       try {
         // Validate sector against configuration
-        const sector = dataToImport.sector?.trim();
-        if (sector && !companySectors.some((s) => s.value === sector)) {
-          setState((old) => ({
-            ...old,
-            status: "importing",
-            error: null,
-            failedImports: {
-              ...old.failedImports,
-              companies: [
-                ...old.failedImports.companies,
-                {
-                  ...(dataToImport as any),
-                  error: `Invalid sector "${sector}". Must be one of: ${companySectors.map((s) => s.value).join(", ")}`,
-                },
-              ],
-            },
-          }));
-          return;
-        }
-
-        const { data } = await dataProvider.create("companies", {
-          data: {
-            name: dataToImport.name.trim(),
-            description: dataToImport.description?.trim(),
-            city: dataToImport.city?.trim(),
-            country: dataToImport.country?.trim(),
-            address: dataToImport.address?.trim(),
-            zipcode: dataToImport.zipcode?.trim(),
-            state_abbr: dataToImport.state_abbr?.trim(),
-            sector: sector || undefined,
-            size: dataToImport.size
-              ? mapSizeToCategory(dataToImport.size)
-              : undefined,
-            linkedin_url: dataToImport.linkedin_url?.trim(),
-            website: dataToImport.website?.trim(),
-            phone_number: dataToImport.phone_number?.trim(),
-            revenue: dataToImport.revenue?.trim(),
-            tax_identifier: dataToImport.tax_identifier?.trim(),
-            context_links: Array.isArray(dataToImport.context_links)
-              ? dataToImport.context_links
-              : undefined,
-            sales_id: dataToImport.sales_id
-              ? idsMaps.sales[dataToImport.sales_id]
-              : currentSale.id,
-            created_at: dataToImport.created_at,
-          },
-        });
+        // Companies are no longer supported — just record the id mapping
+        const data = { id: dataToImport.id };
 
         idsMaps.companies[dataToImport.id] = data.id;
         setState((old) => ({

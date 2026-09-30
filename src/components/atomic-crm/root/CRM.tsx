@@ -15,11 +15,9 @@ import { ForgotPasswordPage } from "@/components/supabase/forgot-password-page";
 import { SetPasswordPage } from "@/components/supabase/set-password-page";
 import { OAuthConsentPage } from "@/components/supabase/oauth-consent-page";
 
-import companies from "../companies";
 import contacts from "../contacts";
 import { Dashboard } from "../dashboard/Dashboard";
 import { MobileDashboard } from "../dashboard/MobileDashboard";
-import deals from "../deals";
 import { Layout } from "../layout/Layout";
 import { MobileLayout } from "../layout/MobileLayout";
 import { SignupPage } from "../login/SignupPage";
@@ -40,12 +38,8 @@ import {
 } from "./ConfigurationContext";
 import type { CrmDataProvider } from "../providers/types";
 import {
-  defaultCompanySectors,
   defaultCurrency,
   defaultDarkModeLogo,
-  defaultDealCategories,
-  defaultDealPipelineStatuses,
-  defaultDealStages,
   defaultLightModeLogo,
   defaultNoteStatuses,
   defaultTaskTypes,
@@ -57,8 +51,8 @@ import { useIsMobile } from "@/hooks/use-mobile.ts";
 import { MobileTasksList } from "../tasks/MobileTasksList.tsx";
 import { ContactListMobile } from "../contacts/ContactList.tsx";
 import { ContactShow } from "../contacts/ContactShow.tsx";
-import { CompanyShow } from "../companies/CompanyShow.tsx";
 import { NoteShowPage } from "../notes/NoteShowPage.tsx";
+import { PipelinePage } from "../pipeline/PipelinePage.tsx";
 
 const defaultStore = localStorageStore(undefined, "CRM");
 
@@ -66,60 +60,16 @@ export type CRMProps = {
   dataProvider?: CrmDataProvider;
   authProvider?: AuthProvider;
   i18nProvider?: CoreAdminProps["i18nProvider"];
-  disableTelemetry?: boolean;
   store?: CoreAdminProps["store"];
   dashboard?: DashboardComponent;
   layout?: LayoutComponent;
 } & Partial<ConfigurationContextValue>;
 
 /**
- * CRM Component
- *
- * This component sets up and renders the main CRM application using `ra-core`. It provides
- * default configurations and themes but allows for customization through props. The component
- * seeds the store with any custom prop values for backwards compatibility.
- *
- * @param {LabeledValue[]} companySectors - The list of company sectors used in the application.
- * @param {string} currency - The ISO 4217 currency code used to format monetary values (e.g. "USD", "EUR", "GBP").
- * @param {RaThemeOptions} darkTheme - The theme to use when the application is in dark mode.
- * @param {LabeledValue[]} dealCategories - The categories of deals used in the application.
- * @param {string[]} dealPipelineStatuses - The statuses of deals in the pipeline used in the application.
- * @param {DealStage[]} dealStages - The stages of deals used in the application.
- * @param {RaThemeOptions} lightTheme - The theme to use when the application is in light mode.
- * @param {string} darkModeLogo - Logo shown in dark mode and on the auth pages. Must be an imported asset, an absolute URL, or a data URI — never a route-relative path like "./logos/x.svg", which breaks on nested routes such as /oauth/consent (issue #291).
- * @param {string} lightModeLogo - Logo shown in light mode. Same rule as darkModeLogo: imported asset, absolute URL, or data URI only.
- * @param {NoteStatus[]} noteStatuses - The statuses of notes used in the application.
- * @param {LabeledValue[]} taskTypes - The types of tasks used in the application.
- * @param {string} title - The title of the CRM application.
- *
- * @returns {JSX.Element} The rendered CRM application.
- *
- * @example
- * // Basic usage of the CRM component
- * import { CRM } from '@/components/atomic-crm/dashboard/CRM';
- *
- * const App = () => (
- *     <CRM
- *         darkModeLogo="https://example.com/logo-dark.svg"
- *         lightModeLogo="https://example.com/logo-light.svg"
- *         title="My Custom CRM"
- *         lightTheme={{
- *             ...defaultTheme,
- *             palette: {
- *                 primary: { main: '#0000ff' },
- *             },
- *         }}
- *     />
- * );
- *
- * export default App;
+ * King Credit CRM — main application shell.
  */
 export const CRM = ({
-  companySectors = defaultCompanySectors,
   currency = defaultCurrency,
-  dealCategories = defaultDealCategories,
-  dealPipelineStatuses = defaultDealPipelineStatuses,
-  dealStages = defaultDealStages,
   darkModeLogo = defaultDarkModeLogo,
   lightModeLogo = defaultLightModeLogo,
   noteStatuses = defaultNoteStatuses,
@@ -129,33 +79,14 @@ export const CRM = ({
   authProvider = defaultAuthProviderBuilder(),
   i18nProvider = defaulti18nProvider,
   store = defaultStore,
-  disableTelemetry,
   ...rest
 }: CRMProps) => {
-  useEffect(() => {
-    if (
-      disableTelemetry ||
-      process.env.NODE_ENV !== "production" ||
-      typeof window === "undefined" ||
-      typeof window.location === "undefined" ||
-      typeof Image === "undefined"
-    ) {
-      return;
-    }
-    const img = new Image();
-    img.src = `https://atomic-crm-telemetry.marmelab.com/atomic-crm-telemetry?domain=${window.location.hostname}`;
-  }, [disableTelemetry]);
-
   // Seed the store with CRM prop values if not already stored
   // (backwards compatibility for prop-based config)
   useEffect(() => {
     if (!store.getItem(CONFIGURATION_STORE_KEY)) {
       store.setItem(CONFIGURATION_STORE_KEY, {
-        companySectors,
         currency,
-        dealCategories,
-        dealPipelineStatuses,
-        dealStages,
         noteStatuses,
         taskTypes,
         title,
@@ -224,7 +155,6 @@ export const CRM = ({
       store={store}
       loginPage={StartPage}
       requireAuth
-      disableTelemetry
       {...rest}
     />
   );
@@ -261,12 +191,12 @@ const DesktopAdmin = (
         <Route path={SettingsPage.path} element={<SettingsPage />} />
         <Route path={ImportPage.path} element={<ImportPage />} />
         <Route path={ChangelogPage.path} element={<ChangelogPage />} />
+        <Route path={PipelinePage.path} element={<PipelinePage />} />
       </CustomRoutes>
-      <Resource name="deals" {...deals} />
       <Resource name="contacts" {...contacts} />
-      <Resource name="companies" {...companies} />
       <Resource name="contact_notes" />
-      <Resource name="deal_notes" />
+      <Resource name="conversations" />
+      <Resource name="messages" />
       <Resource name="tasks" />
       <Resource name="sales" {...sales} />
       <Resource name="tags" />
@@ -334,7 +264,6 @@ const MobileAdmin = (
         >
           <Route path=":id/notes/:noteId" element={<NoteShowPage />} />
         </Resource>
-        <Resource name="companies" show={CompanyShow} />
         <Resource name="tasks" list={MobileTasksList} />
       </Admin>
     </PersistQueryClientProvider>

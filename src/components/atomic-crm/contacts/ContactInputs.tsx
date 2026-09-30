@@ -10,7 +10,6 @@ import type { FocusEvent, ClipboardEventHandler } from "react";
 import { useFormContext } from "react-hook-form";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { BooleanInput } from "@/components/admin/boolean-input";
 import { ReferenceInput } from "@/components/admin/reference-input";
 import { TextInput } from "@/components/admin/text-input";
 import { RadioButtonGroupInput } from "@/components/admin/radio-button-group-input";
@@ -22,7 +21,6 @@ import { isLinkedinUrl } from "../misc/isLinkedInUrl";
 import { StatusSelector } from "../notes";
 import type { Sale, Contact } from "../types";
 import { Avatar } from "./Avatar";
-import { AutocompleteCompanyInput } from "../companies/AutocompleteCompanyInput.tsx";
 import {
   contactGender,
   translateContactGenderLabel,
@@ -40,7 +38,7 @@ export const ContactInputs = () => {
       <div className="flex gap-10 md:gap-6 flex-col md:flex-row">
         <div className="flex flex-col gap-10 flex-1">
           <ContactIdentityInputs />
-          <ContactPositionInputs />
+          <ContactCreditInfoInputs />
         </div>
         {isMobile ? null : (
           <Separator orientation="vertical" className="flex-shrink-0" />
@@ -78,17 +76,14 @@ const ContactIdentityInputs = () => {
   );
 };
 
-const ContactPositionInputs = () => {
+const ContactCreditInfoInputs = () => {
   const translate = useTranslate();
   return (
     <div className="flex flex-col gap-4">
       <h6 className="text-lg font-semibold">
-        {translate("resources.contacts.field_categories.position")}
+        Credit Info
       </h6>
-      <TextInput source="title" helperText={false} />
-      <ReferenceInput source="company_id" reference="companies" perPage={10}>
-        <AutocompleteCompanyInput label="resources.contacts.fields.company_id" />
-      </ReferenceInput>
+      <TextInput source="title" helperText={false} label="Plan Type" />
     </div>
   );
 };
@@ -211,8 +206,7 @@ const ContactMiscInputs = () => {
       <h6 className="text-lg font-semibold">
         {translate("resources.contacts.field_categories.misc")}
       </h6>
-      <TextInput source="background" multiline helperText={false} />
-      <BooleanInput source="has_newsletter" helperText={false} />
+      <TextInput source="background" multiline helperText={false} label="Notes" />
       <ReferenceInput
         reference="sales"
         source="sales_id"
@@ -225,6 +219,7 @@ const ContactMiscInputs = () => {
           helperText={false}
           optionText={saleOptionRenderer}
           validate={required()}
+          label="Assigned To"
         />
       </ReferenceInput>
     </div>
