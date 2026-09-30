@@ -3,6 +3,7 @@ import {
   InfiniteListBase,
   RecordRepresentation,
   ShowBase,
+  useRecordContext,
   useShowContext,
   useTranslate,
 } from "ra-core";
@@ -13,7 +14,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Pencil, MessageSquare, FileText } from "lucide-react";
+import { Pencil, MessageSquare, FileText, AlertTriangle } from "lucide-react";
 import { Link } from "react-router";
 import { ReferenceManyField } from "@/components/admin/reference-many-field";
 
@@ -319,6 +320,16 @@ const ContactShowContent = () => {
 
         <Separator />
 
+        {/* Automations */}
+        <div>
+          <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+            Automations
+          </h4>
+          <StartDunningButton />
+        </div>
+
+        <Separator />
+
         {/* Actions */}
         <div className="flex flex-col gap-2 items-start">
           <EditButton label="Edit Contact" />
@@ -419,6 +430,59 @@ const ContactShowContent = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const DUNNING_WEBHOOK = "https://kingcredit.app.n8n.cloud/webhook/crm-trigger-dunning";
+
+const StartDunningButton = () => {
+  const record = useRecordContext<Contact>();
+  const [loading, setLoading] = useState(false);
+  const [done, setDone] = useState(false);
+
+  if (!record) return null;
+
+  const phone = record.phone_jsonb?.[0]?.number || "";
+  const email = record.email_jsonb?.[0]?.email || "";
+  const plan = (record.title || "gold").toLowerCase().includes("platinum")
+    ? "platinum"
+    : (record.title || "gold").toLowerCase().includes("silver")
+      ? "silver"
+      : (record.title || "gold").toLowerCase().includes("bronze")
+        ? "bronze"
+        : "gold";
+
+  const handleClick = async () => {
+    setLoading(true);
+    try {
+      await fetch(DUNNING_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contact_id: record.id,
+          firstName: record.first_name,
+          phone,
+          email,
+          plan,
+        }),
+      });
+      setDone(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      className="h-7 text-xs cursor-pointer w-full justify-start"
+      onClick={handleClick}
+      disabled={loading || done}
+    >
+      <AlertTriangle className="w-3.5 h-3.5 mr-1.5 text-orange-500" />
+      {done ? "Dunning Started" : loading ? "Starting..." : "Start Dunning Sequence"}
+    </Button>
   );
 };
 
