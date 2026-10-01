@@ -147,9 +147,15 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Conversations">
-                  <MessageSquare className="shrink-0" />
-                  <span>Conversations</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/conversations")}
+                  tooltip="Conversations"
+                >
+                  <Link to="/conversations">
+                    <MessageSquare className="shrink-0" />
+                    <span>Conversations</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>

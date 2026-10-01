@@ -53,6 +53,7 @@ import { ContactListMobile } from "../contacts/ContactList.tsx";
 import { ContactShow } from "../contacts/ContactShow.tsx";
 import { NoteShowPage } from "../notes/NoteShowPage.tsx";
 import { PipelinePage } from "../pipeline/PipelinePage.tsx";
+import { ConversationsPage } from "../conversations/ConversationsPage.tsx";
 
 const defaultStore = localStorageStore(undefined, "CRM");
 
@@ -192,6 +193,10 @@ const DesktopAdmin = (
         <Route path={ImportPage.path} element={<ImportPage />} />
         <Route path={ChangelogPage.path} element={<ChangelogPage />} />
         <Route path={PipelinePage.path} element={<PipelinePage />} />
+        <Route
+          path={ConversationsPage.path}
+          element={<ConversationsPage />}
+        />
       </CustomRoutes>
       <Resource name="contacts" {...contacts} />
       <Resource name="contact_notes" />

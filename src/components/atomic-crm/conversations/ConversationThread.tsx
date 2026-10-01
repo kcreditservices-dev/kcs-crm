@@ -36,15 +36,18 @@ const N8N_SMS_WEBHOOK = import.meta.env.VITE_SMS_WEBHOOK ?? "";
 
 export const ConversationThread = ({
   contactId,
+  phone,
 }: {
   contactId: Identifier;
+  phone?: string;
 }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [newMessage, setNewMessage] = useState("");
   const [sending, setSending] = useState(false);
   const refresh = useRefresh();
   const contact = useRecordContext<Contact>();
-  const contactPhone = contact?.phone_jsonb?.[0]?.number || "";
+  const contactPhone =
+    phone || contact?.phone_jsonb?.[0]?.number || "";
 
   // Get or create conversation for this contact
   const { data: conversations, isPending: convLoading } =
