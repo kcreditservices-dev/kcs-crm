@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { Bot, ChevronDown, Send, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { ChevronDown, Mic, MicOff, Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -7,11 +7,31 @@ const AGENT_HUB_ENDPOINT =
   import.meta.env.VITE_AGENT_HUB_ENDPOINT ?? "";
 
 const AGENT_CONFIG = {
-  Kay: { color: "bg-blue-500", label: "KAY - Phone AI" },
-  Eric: { color: "bg-green-500", label: "Eric - After-Hours" },
-  Sue: { color: "bg-purple-500", label: "Sue - ITS Specialist" },
-  Sam: { color: "bg-orange-500", label: "Sam - Social Media" },
-  Dez: { color: "bg-red-500", label: "Dez - Dispute Engine" },
+  Kay: {
+    label: "KAY",
+    role: "Executive Assistant",
+    avatar: "/avatars/kay.png",
+  },
+  Eric: {
+    label: "Eric",
+    role: "KCS Agent",
+    avatar: "/avatars/eric.png",
+  },
+  Sue: {
+    label: "Sue",
+    role: "Legal",
+    avatar: "/avatars/sue.png",
+  },
+  Sam: {
+    label: "Sam",
+    role: "Social Media",
+    avatar: "/avatars/sam.png",
+  },
+  Des: {
+    label: "Des",
+    role: "Dispute Engine",
+    avatar: "/avatars/des.png",
+  },
 } as const;
 
 type AgentName = keyof typeof AGENT_CONFIG;
@@ -41,8 +61,46 @@ export const AgentPanel = ({
   const [input, setInput] = useState("");
   const [sending, setSending] = useState(false);
   const [showAgentPicker, setShowAgentPicker] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+
+  const toggleVoice = useCallback(() => {
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+
+    const recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
+      const transcript = Array.from(event.results)
+        .map((r) => r[0].text)
+        .join("");
+      setInput(transcript);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onerror = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+  }, [isListening]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -132,8 +190,19 @@ export const AgentPanel = ({
             onClick={() => setShowAgentPicker(!showAgentPicker)}
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
-            <span className={`w-2.5 h-2.5 rounded-full ${config.color}`} />
-            <span className="font-semibold text-sm">{config.label}</span>
+            <img
+              src={config.avatar}
+              alt={config.label}
+              className="w-7 h-7 rounded-full object-cover"
+            />
+            <div className="text-left">
+              <span className="font-semibold text-sm block leading-tight">
+                {config.label}
+              </span>
+              <span className="text-[10px] text-muted-foreground leading-tight">
+                {config.role}
+              </span>
+            </div>
             <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
           </button>
 
@@ -151,10 +220,19 @@ export const AgentPanel = ({
                     name === activeAgent && "bg-accent",
                   )}
                 >
-                  <span
-                    className={`w-2 h-2 rounded-full ${AGENT_CONFIG[name].color}`}
+                  <img
+                    src={AGENT_CONFIG[name].avatar}
+                    alt={name}
+                    className="w-6 h-6 rounded-full object-cover"
                   />
-                  {AGENT_CONFIG[name].label}
+                  <div>
+                    <span className="block font-medium leading-tight">
+                      {AGENT_CONFIG[name].label}
+                    </span>
+                    <span className="block text-[10px] text-muted-foreground leading-tight">
+                      {AGENT_CONFIG[name].role}
+                    </span>
+                  </div>
                 </button>
               ))}
             </div>
@@ -175,9 +253,18 @@ export const AgentPanel = ({
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {agentMessages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-muted-foreground text-center px-6">
-            <Bot className="w-12 h-12 mb-3 opacity-30" />
-            <p className="text-sm font-medium">Talk to {activeAgent}</p>
-            <p className="text-xs mt-1">
+            <img
+              src={config.avatar}
+              alt={activeAgent}
+              className="w-20 h-20 rounded-full object-cover mb-4 opacity-80"
+            />
+            <p className="text-sm font-medium text-foreground">
+              Talk to {activeAgent}
+            </p>
+            <p className="text-xs mt-1 text-muted-foreground">
+              {config.role}
+            </p>
+            <p className="text-xs mt-3 max-w-[240px]">
               Send a command or ask a question. Messages route directly to{" "}
               {activeAgent}'s brain.
             </p>
@@ -202,8 +289,10 @@ export const AgentPanel = ({
             >
               {msg.role === "agent" && (
                 <div className="flex items-center gap-1.5 mb-1">
-                  <span
-                    className={`w-1.5 h-1.5 rounded-full ${config.color}`}
+                  <img
+                    src={config.avatar}
+                    alt={msg.agent}
+                    className="w-4 h-4 rounded-full object-cover"
                   />
                   <span className="text-xs font-medium opacity-70">
                     {msg.agent}
@@ -234,8 +323,10 @@ export const AgentPanel = ({
           <div className="flex justify-start">
             <div className="bg-muted rounded-2xl rounded-bl-md px-4 py-3">
               <div className="flex items-center gap-1.5">
-                <span
-                  className={`w-1.5 h-1.5 rounded-full ${config.color} animate-pulse`}
+                <img
+                  src={config.avatar}
+                  alt={activeAgent}
+                  className="w-4 h-4 rounded-full object-cover animate-pulse"
                 />
                 <span className="text-xs text-muted-foreground">
                   {activeAgent} is thinking...
@@ -251,14 +342,34 @@ export const AgentPanel = ({
       {/* Input */}
       <div className="border-t p-3">
         <div className="flex gap-2">
+          <Button
+            variant={isListening ? "destructive" : "ghost"}
+            size="icon"
+            onClick={toggleVoice}
+            className="shrink-0 h-9 w-9"
+            title={isListening ? "Stop listening" : "Voice input"}
+          >
+            {isListening ? (
+              <MicOff className="w-4 h-4" />
+            ) : (
+              <Mic className="w-4 h-4" />
+            )}
+          </Button>
           <textarea
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={`Message ${activeAgent}...`}
+            placeholder={
+              isListening
+                ? "Listening..."
+                : `Message ${activeAgent}...`
+            }
             rows={1}
-            className="flex-1 resize-none rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className={cn(
+              "flex-1 resize-none rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20",
+              isListening && "border-destructive/50 ring-1 ring-destructive/20",
+            )}
           />
           <Button
             size="icon"

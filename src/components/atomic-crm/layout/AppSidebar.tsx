@@ -8,9 +8,16 @@ import {
   Target,
   BarChart3,
   Mail,
-  ClipboardList,
   GraduationCap,
   HelpCircle,
+  MessageSquare,
+  Share2,
+  CreditCard,
+  Zap,
+  UserPlus,
+  FolderOpen,
+  CalendarDays,
+  FileBarChart,
 } from "lucide-react";
 import { CanAccess, useTranslate } from "ra-core";
 import { Link, matchPath, useLocation } from "react-router";
@@ -32,11 +39,11 @@ import {
 import { useConfigurationContext } from "../root/ConfigurationContext";
 
 const AGENTS = [
-  { name: "Kay", color: "bg-cyan-400" },
-  { name: "Eric", color: "bg-emerald-400" },
-  { name: "Sue", color: "bg-purple-400" },
-  { name: "Sam", color: "bg-orange-400" },
-  { name: "Dez", color: "bg-rose-400" },
+  { name: "Kay", avatar: "/avatars/kay.png" },
+  { name: "Eric", avatar: "/avatars/eric.png" },
+  { name: "Sue", avatar: "/avatars/sue.png" },
+  { name: "Sam", avatar: "/avatars/sam.png" },
+  { name: "Des", avatar: "/avatars/des.png" },
 ] as const;
 
 interface AppSidebarProps {
@@ -79,7 +86,7 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
       <SidebarSeparator />
 
       <SidebarContent>
-        {/* Main Navigation */}
+        {/* Core Navigation */}
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -134,27 +141,15 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
 
         <SidebarSeparator />
 
-        {/* Modules */}
+        {/* Communication */}
         <SidebarGroup>
-          <SidebarGroupLabel>Modules</SidebarGroupLabel>
+          <SidebarGroupLabel>Communication</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Clients">
-                  <UserCheck className="shrink-0" />
-                  <span>Clients</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Opportunities">
-                  <Target className="shrink-0" />
-                  <span>Opportunities</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Analytics">
-                  <BarChart3 className="shrink-0" />
-                  <span>Analytics</span>
+                <SidebarMenuButton tooltip="Conversations">
+                  <MessageSquare className="shrink-0" />
+                  <span>Conversations</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -164,9 +159,73 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Forms">
-                  <ClipboardList className="shrink-0" />
-                  <span>Forms</span>
+                <SidebarMenuButton tooltip="Social Media">
+                  <Share2 className="shrink-0" />
+                  <span>Social Media</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+        {/* Operations */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Operations</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Payments">
+                  <CreditCard className="shrink-0" />
+                  <span>Payments</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Automations">
+                  <Zap className="shrink-0" />
+                  <span>Automations</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Affiliates">
+                  <UserPlus className="shrink-0" />
+                  <span>Affiliates</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Documents">
+                  <FolderOpen className="shrink-0" />
+                  <span>Documents</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Calendar">
+                  <CalendarDays className="shrink-0" />
+                  <span>Calendar</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+        {/* Insights */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Insights</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Analytics">
+                  <BarChart3 className="shrink-0" />
+                  <span>Analytics</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton tooltip="Reports">
+                  <FileBarChart className="shrink-0" />
+                  <span>Reports</span>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -181,7 +240,7 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
 
         <SidebarSeparator />
 
-        {/* Agents */}
+        {/* AI Agents */}
         <SidebarGroup>
           <SidebarGroupLabel>AI Agents</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -192,8 +251,10 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                     tooltip={agent.name}
                     onClick={() => onOpenAgentPanel?.(agent.name)}
                   >
-                    <span
-                      className={`w-2 h-2 rounded-full ${agent.color} shrink-0`}
+                    <img
+                      src={agent.avatar}
+                      alt={agent.name}
+                      className="w-5 h-5 rounded-full object-cover shrink-0"
                     />
                     <span>{agent.name}</span>
                   </SidebarMenuButton>

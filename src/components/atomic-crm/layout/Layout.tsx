@@ -11,7 +11,7 @@ import { AppSidebar } from "./AppSidebar";
 import { AgentPanel } from "./AgentPanel";
 import Header from "./Header";
 
-type AgentName = "Kay" | "Eric" | "Sue" | "Sam" | "Dez";
+type AgentName = "Kay" | "Eric" | "Sue" | "Sam" | "Des";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   useConfigurationLoader();
