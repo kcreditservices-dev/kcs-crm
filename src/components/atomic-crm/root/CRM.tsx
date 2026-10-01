@@ -58,6 +58,13 @@ import { KcbPage } from "../tools/KcbPage.tsx";
 import { SocialMediaPage } from "../social/SocialMediaPage.tsx";
 import { PaymentsPage } from "../payments/PaymentsPage.tsx";
 import { AutomationsPage } from "../automations/AutomationsPage.tsx";
+import { AffiliatesPage } from "../affiliates/AffiliatesPage.tsx";
+import { DocumentsPage } from "../documents/DocumentsPage.tsx";
+import { CalendarPage } from "../calendar/CalendarPage.tsx";
+import { AnalyticsPage } from "../insights/AnalyticsPage.tsx";
+import { ReportsPage } from "../insights/ReportsPage.tsx";
+import { AcademyPage } from "../insights/AcademyPage.tsx";
+import { EmailPage } from "../email/EmailPage.tsx";
 
 const defaultStore = localStorageStore(undefined, "CRM");
 
@@ -211,6 +218,13 @@ const DesktopAdmin = (
           path={AutomationsPage.path}
           element={<AutomationsPage />}
         />
+        <Route path={AffiliatesPage.path} element={<AffiliatesPage />} />
+        <Route path={DocumentsPage.path} element={<DocumentsPage />} />
+        <Route path={CalendarPage.path} element={<CalendarPage />} />
+        <Route path={AnalyticsPage.path} element={<AnalyticsPage />} />
+        <Route path={ReportsPage.path} element={<ReportsPage />} />
+        <Route path={AcademyPage.path} element={<AcademyPage />} />
+        <Route path={EmailPage.path} element={<EmailPage />} />
       </CustomRoutes>
       <Resource name="contacts" {...contacts} />
       <Resource name="contact_notes" />

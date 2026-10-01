@@ -159,9 +159,15 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Email">
-                  <Mail className="shrink-0" />
-                  <span>Email</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/email")}
+                  tooltip="Email"
+                >
+                  <Link to="/email">
+                    <Mail className="shrink-0" />
+                    <span>Email</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -212,21 +218,39 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Affiliates">
-                  <UserPlus className="shrink-0" />
-                  <span>Affiliates</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/affiliates")}
+                  tooltip="Affiliates"
+                >
+                  <Link to="/affiliates">
+                    <UserPlus className="shrink-0" />
+                    <span>Affiliates</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Documents">
-                  <FolderOpen className="shrink-0" />
-                  <span>Documents</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/documents")}
+                  tooltip="Documents"
+                >
+                  <Link to="/documents">
+                    <FolderOpen className="shrink-0" />
+                    <span>Documents</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Calendar">
-                  <CalendarDays className="shrink-0" />
-                  <span>Calendar</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/calendar")}
+                  tooltip="Calendar"
+                >
+                  <Link to="/calendar">
+                    <CalendarDays className="shrink-0" />
+                    <span>Calendar</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -276,21 +300,39 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Analytics">
-                  <BarChart3 className="shrink-0" />
-                  <span>Analytics</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/analytics")}
+                  tooltip="Analytics"
+                >
+                  <Link to="/analytics">
+                    <BarChart3 className="shrink-0" />
+                    <span>Analytics</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Reports">
-                  <FileBarChart className="shrink-0" />
-                  <span>Reports</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/reports")}
+                  tooltip="Reports"
+                >
+                  <Link to="/reports">
+                    <FileBarChart className="shrink-0" />
+                    <span>Reports</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Academy">
-                  <GraduationCap className="shrink-0" />
-                  <span>Academy</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/academy")}
+                  tooltip="Academy"
+                >
+                  <Link to="/academy">
+                    <GraduationCap className="shrink-0" />
+                    <span>Academy</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
