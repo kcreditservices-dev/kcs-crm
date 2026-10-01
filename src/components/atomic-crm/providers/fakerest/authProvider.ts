@@ -78,7 +78,9 @@ export const authProvider: AuthProvider = {
     return Promise.resolve({
       id: user?.id ?? 0,
       fullName: user ? `${user.first_name} ${user.last_name}` : "Jane Doe",
+      first_name: user?.first_name ?? "Jane",
       avatar: user?.avatar?.src,
+      administrator: user?.administrator ?? true,
     });
   },
   async getAuthorizationDetails() {

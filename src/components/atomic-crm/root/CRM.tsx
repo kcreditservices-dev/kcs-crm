@@ -16,7 +16,7 @@ import { SetPasswordPage } from "@/components/supabase/set-password-page";
 import { OAuthConsentPage } from "@/components/supabase/oauth-consent-page";
 
 import contacts from "../contacts";
-import { Dashboard } from "../dashboard/Dashboard";
+import { LiveOpsDashboard } from "../dashboard/LiveOpsDashboard";
 import { MobileDashboard } from "../dashboard/MobileDashboard";
 import { Layout } from "../layout/Layout";
 import { MobileLayout } from "../layout/MobileLayout";
@@ -169,7 +169,7 @@ const DesktopAdmin = (
   return (
     <Admin
       layout={props.layout ?? Layout}
-      dashboard={props.dashboard ?? Dashboard}
+      dashboard={props.dashboard ?? LiveOpsDashboard}
       {...props}
     >
       <CustomRoutes noLayout>
@@ -198,6 +198,7 @@ const DesktopAdmin = (
       <Resource name="conversations" />
       <Resource name="messages" />
       <Resource name="tasks" />
+      <Resource name="deals" />
       <Resource name="sales" {...sales} />
       <Resource name="tags" />
     </Admin>

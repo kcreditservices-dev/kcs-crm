@@ -109,14 +109,14 @@
   --ring: oklch(0.82 0.15 85);
   --chart-1: oklch(0.82 0.15 85);
   --chart-2: oklch(0.65 0.17 162);
-  --chart-3: oklch(0.70 0.15 250);
+  --chart-3: oklch(0.7 0.15 250);
   --chart-4: oklch(0.75 0.12 340);
-  --chart-5: oklch(0.60 0.20 30);
+  --chart-5: oklch(0.6 0.2 30);
   --sidebar: oklch(0.11 0.005 260);
   --sidebar-foreground: oklch(0.95 0 0);
   --sidebar-primary: oklch(0.82 0.15 85);
   --sidebar-primary-foreground: oklch(0.15 0 0);
-  --sidebar-accent: oklch(0.20 0.005 260);
+  --sidebar-accent: oklch(0.2 0.005 260);
   --sidebar-accent-foreground: oklch(0.95 0 0);
   --sidebar-border: oklch(1 0 0 / 8%);
   --sidebar-ring: oklch(0.82 0.15 85);
@@ -185,6 +185,43 @@ input[type="time"] {
 
 body {
   font-family: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Glow card effect for Live Ops dashboard */
+.glow-card {
+  position: relative;
+  border: 1px solid oklch(0.75 0.15 195 / 15%);
+  background: oklch(0.14 0.008 260);
+  border-radius: 0.75rem;
+}
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    oklch(0.75 0.15 195 / 20%) 0%,
+    transparent 50%,
+    oklch(0.75 0.15 195 / 10%) 100%
+  );
+  z-index: -1;
+  filter: blur(1px);
+}
+
+.glow-text {
+  color: oklch(0.82 0.14 195);
+  text-shadow: 0 0 20px oklch(0.75 0.15 195 / 40%);
+}
+
+.glow-ring {
+  filter: drop-shadow(0 0 8px oklch(0.75 0.15 195 / 50%));
+}
+
+.glow-border {
+  box-shadow:
+    0 0 15px oklch(0.75 0.15 195 / 15%),
+    inset 0 1px 0 oklch(1 0 0 / 5%);
 }
 
 /* The mobile pull-to-refresh (see layout/PullToRefresh.tsx) owns the overscroll
