@@ -200,9 +200,15 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Automations">
-                  <Zap className="shrink-0" />
-                  <span>Automations</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/automations")}
+                  tooltip="Automations"
+                >
+                  <Link to="/automations">
+                    <Zap className="shrink-0" />
+                    <span>Automations</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
