@@ -32,7 +32,7 @@ interface Conversation {
   channel: string;
 }
 
-const N8N_SMS_WEBHOOK = "https://kingcredit.app.n8n.cloud/webhook/crm-send-sms";
+const N8N_SMS_WEBHOOK = import.meta.env.VITE_SMS_WEBHOOK ?? "";
 
 export const ConversationThread = ({
   contactId,

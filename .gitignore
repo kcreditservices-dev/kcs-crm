@@ -39,7 +39,9 @@ dist/
 # Shadcn Registry
 public/r/
 
-!supabase/functions/.env
+.env.development
+.env.e2e
+supabase/functions/.env
 .claude/settings.local.json
 
 # Harness scratch (promotion lock, kept on purpose; worktrees cleaned at SessionEnd)

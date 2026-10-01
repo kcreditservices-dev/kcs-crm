@@ -433,7 +433,7 @@ const ContactShowContent = () => {
   );
 };
 
-const DUNNING_WEBHOOK = "https://kingcredit.app.n8n.cloud/webhook/crm-trigger-dunning";
+const DUNNING_WEBHOOK = import.meta.env.VITE_DUNNING_WEBHOOK ?? "";
 
 const StartDunningButton = () => {
   const record = useRecordContext<Contact>();

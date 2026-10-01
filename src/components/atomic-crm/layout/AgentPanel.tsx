@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const AGENT_HUB_ENDPOINT =
-  "https://kingcredit.app.n8n.cloud/webhook/agent-hub-chat";
+  import.meta.env.VITE_AGENT_HUB_ENDPOINT ?? "";
 
 const AGENT_CONFIG = {
   Kay: { color: "bg-blue-500", label: "KAY - Phone AI" },
