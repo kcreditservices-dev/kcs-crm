@@ -188,9 +188,15 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Payments">
-                  <CreditCard className="shrink-0" />
-                  <span>Payments</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/payments")}
+                  tooltip="Payments"
+                >
+                  <Link to="/payments">
+                    <CreditCard className="shrink-0" />
+                    <span>Payments</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
