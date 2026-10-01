@@ -4,8 +4,6 @@ import {
   Kanban,
   Settings,
   UserCircle,
-  UserCheck,
-  Target,
   BarChart3,
   Mail,
   GraduationCap,
@@ -18,6 +16,8 @@ import {
   FolderOpen,
   CalendarDays,
   FileBarChart,
+  ShieldCheck,
+  Bot,
 } from "lucide-react";
 import { CanAccess, useTranslate } from "ra-core";
 import { Link, matchPath, useLocation } from "react-router";
@@ -209,6 +209,41 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                 <SidebarMenuButton tooltip="Calendar">
                   <CalendarDays className="shrink-0" />
                   <span>Calendar</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarSeparator />
+
+        {/* Tools */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Tools</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/kcb")}
+                  tooltip="KCB"
+                >
+                  <Link to="/kcb">
+                    <Bot className="shrink-0" />
+                    <span>KCB</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip="MyScoreIQ">
+                  <a
+                    href="https://member.myscoreiq.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <ShieldCheck className="shrink-0" />
+                    <span>MyScoreIQ</span>
+                  </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
