@@ -165,9 +165,15 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton tooltip="Social Media">
-                  <Share2 className="shrink-0" />
-                  <span>Social Media</span>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/social")}
+                  tooltip="Social Media"
+                >
+                  <Link to="/social">
+                    <Share2 className="shrink-0" />
+                    <span>Social Media</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>

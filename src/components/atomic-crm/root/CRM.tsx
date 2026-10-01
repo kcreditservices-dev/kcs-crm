@@ -55,6 +55,7 @@ import { NoteShowPage } from "../notes/NoteShowPage.tsx";
 import { PipelinePage } from "../pipeline/PipelinePage.tsx";
 import { ConversationsPage } from "../conversations/ConversationsPage.tsx";
 import { KcbPage } from "../tools/KcbPage.tsx";
+import { SocialMediaPage } from "../social/SocialMediaPage.tsx";
 
 const defaultStore = localStorageStore(undefined, "CRM");
 
@@ -199,6 +200,10 @@ const DesktopAdmin = (
           element={<ConversationsPage />}
         />
         <Route path={KcbPage.path} element={<KcbPage />} />
+        <Route
+          path={SocialMediaPage.path}
+          element={<SocialMediaPage />}
+        />
       </CustomRoutes>
       <Resource name="contacts" {...contacts} />
       <Resource name="contact_notes" />
