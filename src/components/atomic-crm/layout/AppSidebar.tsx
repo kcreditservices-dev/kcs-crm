@@ -11,13 +11,16 @@ import {
   MessageSquare,
   Share2,
   CreditCard,
+  ClipboardList,
   Zap,
   UserPlus,
   FolderOpen,
   CalendarDays,
   FileBarChart,
+  Trophy,
   ShieldCheck,
   Bot,
+  Monitor,
 } from "lucide-react";
 import { CanAccess, useTranslate } from "ra-core";
 import { Link, matchPath, useLocation } from "react-router";
@@ -158,30 +161,34 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive("/email")}
-                  tooltip="Email"
-                >
-                  <Link to="/email">
-                    <Mail className="shrink-0" />
-                    <span>Email</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive("/social")}
-                  tooltip="Social Media"
-                >
-                  <Link to="/social">
-                    <Share2 className="shrink-0" />
-                    <span>Social Media</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <CanAccess resource="email" action="list">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/email")}
+                    tooltip="Email"
+                  >
+                    <Link to="/email">
+                      <Mail className="shrink-0" />
+                      <span>Email</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CanAccess>
+              <CanAccess resource="social" action="list">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/social")}
+                    tooltip="Social Media"
+                  >
+                    <Link to="/social">
+                      <Share2 className="shrink-0" />
+                      <span>Social Media</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CanAccess>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -193,42 +200,62 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
           <SidebarGroupLabel>Operations</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive("/payments")}
-                  tooltip="Payments"
-                >
-                  <Link to="/payments">
-                    <CreditCard className="shrink-0" />
-                    <span>Payments</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive("/automations")}
-                  tooltip="Automations"
-                >
-                  <Link to="/automations">
-                    <Zap className="shrink-0" />
-                    <span>Automations</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive("/affiliates")}
-                  tooltip="Affiliates"
-                >
-                  <Link to="/affiliates">
-                    <UserPlus className="shrink-0" />
-                    <span>Affiliates</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <CanAccess resource="payments" action="list">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/payments")}
+                    tooltip="Payments"
+                  >
+                    <Link to="/payments">
+                      <CreditCard className="shrink-0" />
+                      <span>Payments</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CanAccess>
+              <CanAccess resource="payments" action="list">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/master-dashboard")}
+                    tooltip="Master Dashboard"
+                  >
+                    <Link to="/master-dashboard">
+                      <ClipboardList className="shrink-0" />
+                      <span>Master Dashboard</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CanAccess>
+              <CanAccess resource="automations" action="list">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/automations")}
+                    tooltip="Automations"
+                  >
+                    <Link to="/automations">
+                      <Zap className="shrink-0" />
+                      <span>Automations</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CanAccess>
+              <CanAccess resource="affiliates" action="list">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/affiliates")}
+                    tooltip="Affiliates"
+                  >
+                    <Link to="/affiliates">
+                      <UserPlus className="shrink-0" />
+                      <span>Affiliates</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CanAccess>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
@@ -277,6 +304,18 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={isActive("/portal")}
+                  tooltip="Client Portal"
+                >
+                  <Link to="/portal">
+                    <Monitor className="shrink-0" />
+                    <span>Client Portal</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
                 <SidebarMenuButton asChild tooltip="MyScoreIQ">
                   <a
                     href="https://member.myscoreiq.com/"
@@ -294,32 +333,48 @@ export const AppSidebar = ({ onOpenAgentPanel }: AppSidebarProps) => {
 
         <SidebarSeparator />
 
-        {/* Insights */}
+        {/* Insights — admin only except Academy */}
         <SidebarGroup>
           <SidebarGroupLabel>Insights</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <CanAccess resource="analytics" action="list">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/analytics")}
+                    tooltip="Analytics"
+                  >
+                    <Link to="/analytics">
+                      <BarChart3 className="shrink-0" />
+                      <span>Analytics</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CanAccess>
+              <CanAccess resource="reports" action="list">
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/reports")}
+                    tooltip="Reports"
+                  >
+                    <Link to="/reports">
+                      <FileBarChart className="shrink-0" />
+                      <span>Reports</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </CanAccess>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  isActive={isActive("/analytics")}
-                  tooltip="Analytics"
+                  isActive={isActive("/client-wins")}
+                  tooltip="Client Wins"
                 >
-                  <Link to="/analytics">
-                    <BarChart3 className="shrink-0" />
-                    <span>Analytics</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive("/reports")}
-                  tooltip="Reports"
-                >
-                  <Link to="/reports">
-                    <FileBarChart className="shrink-0" />
-                    <span>Reports</span>
+                  <Link to="/client-wins">
+                    <Trophy className="shrink-0" />
+                    <span>Client Wins</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

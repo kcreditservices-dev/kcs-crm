@@ -55,6 +55,7 @@ import { NoteShowPage } from "../notes/NoteShowPage.tsx";
 import { PipelinePage } from "../pipeline/PipelinePage.tsx";
 import { ConversationsPage } from "../conversations/ConversationsPage.tsx";
 import { KcbPage } from "../tools/KcbPage.tsx";
+import { PortalPage } from "../tools/PortalPage.tsx";
 import { SocialMediaPage } from "../social/SocialMediaPage.tsx";
 import { PaymentsPage } from "../payments/PaymentsPage.tsx";
 import { AutomationsPage } from "../automations/AutomationsPage.tsx";
@@ -64,7 +65,9 @@ import { CalendarPage } from "../calendar/CalendarPage.tsx";
 import { AnalyticsPage } from "../insights/AnalyticsPage.tsx";
 import { ReportsPage } from "../insights/ReportsPage.tsx";
 import { AcademyPage } from "../insights/AcademyPage.tsx";
+import { ClientWinsPage } from "../insights/ClientWinsPage.tsx";
 import { EmailPage } from "../email/EmailPage.tsx";
+import { ClientDashboardPage } from "../client-dashboard/ClientDashboardPage.tsx";
 
 const defaultStore = localStorageStore(undefined, "CRM");
 
@@ -209,11 +212,13 @@ const DesktopAdmin = (
           element={<ConversationsPage />}
         />
         <Route path={KcbPage.path} element={<KcbPage />} />
+        <Route path={PortalPage.path} element={<PortalPage />} />
         <Route
           path={SocialMediaPage.path}
           element={<SocialMediaPage />}
         />
         <Route path={PaymentsPage.path} element={<PaymentsPage />} />
+        <Route path={ClientDashboardPage.path} element={<ClientDashboardPage />} />
         <Route
           path={AutomationsPage.path}
           element={<AutomationsPage />}
@@ -223,6 +228,7 @@ const DesktopAdmin = (
         <Route path={CalendarPage.path} element={<CalendarPage />} />
         <Route path={AnalyticsPage.path} element={<AnalyticsPage />} />
         <Route path={ReportsPage.path} element={<ReportsPage />} />
+        <Route path={ClientWinsPage.path} element={<ClientWinsPage />} />
         <Route path={AcademyPage.path} element={<AcademyPage />} />
         <Route path={EmailPage.path} element={<EmailPage />} />
       </CustomRoutes>
